@@ -1,0 +1,22 @@
+{
+    "@metadata": {
+        "authors": []
+    },
+    "vueconvert-desc" : "Omzetten vue-file",
+    "vueconvert" : "Omzetten vue-file",
+    "example-desc": "Dit is een extensie geschreven door Anton Bil.",
+    "choose-files":"Kies twee bestanden: yml-file en vue-file",
+    "convert":"Omzetten",
+    "download":"Downloaden",
+    "result-conversion":"Resultaat omzetten",
+    "copy-paste":"U kunt het resultaat kopieren (ctrl_c) en plakken",
+    "back":"Terug",
+    "alternative-download":"alternatief: downloaden als bestand",
+    "vue-file-omzetten":"Op deze pagina kunt u een vue-file omzetten naar een im-image",
+    "prefix-postfix":"Optioneel: aangeven prefix en/of postfix",
+    "vue-file" :"Vue-file",
+    "yml-file":"Yml-file",
+    "error-vue-file":"Fout bij lezen vue-file",
+    "prefix":"Prefix",
+    "postfix":"Postfix"
+}

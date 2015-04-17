@@ -1,0 +1,22 @@
+{
+    "@metadata": {
+        "authors": []
+    },
+    "vueconvert-desc" : "Convert vue-file, written by Anton Bil",
+    "vueconvert" : "Convert vue-file",
+    "example-desc": "This is an extension written by Anton Bil.",
+    "choose-files":"Select two files: vue-file and yml-file",
+    "convert":"Convert",
+    "download":"Download",
+    "result-conversion":"Conversion result",
+    "copy-paste":"You can copy (ctrl_c) and paste the result",
+    "back":"Back",
+    "alternative-download":"alternative: download as file",
+    "vue-file-omzetten":"On this page a vue-file can be converted to an im-image",
+    "prefix-postfix":"Optional: enter prefix and postfix",
+    "vue-file" :"Vue-file",
+    "yml-file":"Yml-file",
+    "prefix":"Prefix",
+    "error-vue-file":"Error reading vue-file",
+    "postfix":"Postfix"
+}
