@@ -8,7 +8,7 @@
  *   Last Update By: Anton Bil
 * prerequisites: ruby and ruby-xml-simple packages must be installed
  */
-
+ 
 class VueConvert extends SpecialPage
 {
     const JAVASCRIPTTEXT=<<<'EOD'
@@ -21,11 +21,11 @@ function inbetween(s,total)
   return sub.substring(1,n).replace(/"+/g, "").trim();
 }
 function readYmlFile(evt) {
-  var f = evt.target.files[0];
+  var f = evt.target.files[0]; 
   //var fname=f.name;
   if (f) {
     var r = new FileReader();
-    r.onload = function(e) {
+    r.onload = function(e) { 
       var contents = e.target.result;
       document.getElementById("prefix").value = inbetween("prefix:",contents);
       document.getElementById("postfix").value = inbetween("postfix:",contents);
@@ -58,15 +58,20 @@ map:
   "Er zijn": "Zorgdenkwijze er zijn"
   "In de kracht zetten": "Zorgdenkwijze in de kracht zetten"
 EOD;
-	function VueConvert() {
-		parent::__construct("VueConvert");
+	function __construct() {
+		parent::__construct( "VueConvert","vueconvert" );
 	}
-
 	function execute($par) {
+		//restrict acces to users wo have got here by typing the url
+		if (  !$this->userCanExecute( $this->getUser() )  ) {
+			$this->displayRestrictionError();
+			return;
+		}
+
 		global $wgRequest;
-
+		
 		$this->setHeaders ();
-
+		
 		// Handle whether the form was posted or not
 		if ($wgRequest->wasPosted ()) {
 			$displaymethod = $_POST ['displaymethod'];
@@ -111,7 +116,7 @@ function displayintextarea($str,$out_name,$vuename){
   array_push($content,'<input type="hidden" name="displaymethod" value="download">');
   array_push($content,"<input type=\"hidden\" name=\"imfile\" value=\"".$out_name."\">");
   array_push($content,'<textarea rows="30" cols="120" name="imtext">');
-
+ 
   foreach($arr as $line) {
 	  array_push($content,$line."\n");
   }
@@ -208,7 +213,7 @@ function downloadtext($imfile,$imtext){
 	    // tell the browser we want to save it instead of displaying it
 	    header($header);
 	    echo $imtext; // push it out
-	    exit();
+	    exit();  
 }
 function changeparam($arr,$paramdesc,$paramvalue) {
 	/*
@@ -285,7 +290,7 @@ function changeparam($arr,$paramdesc,$paramvalue) {
     $fp = fopen($vuefilename,"wb");
     fwrite($fp,$vuecontent);
     fclose($fp);
-    //now execute ruby-script
+    //now execute ruby-script 
     $rubycommand="ruby ".$rubyname." ".$ymlfilename;
     exec($rubycommand);
     //output results

@@ -21,6 +21,10 @@ EOT;
         exit( 1 );
 }
 
+//fix permissions. Can be executed by user group
+$wgGroupPermissions['user']['vueconvert'] = true;
+$wgAvailableRights[] = 'vueconvert';
+
 $wgExtensionCredits['specialpage'][] = array(
 	'name' => 'Vue Convert',
 	'version' => '1.0',

@@ -201,16 +201,16 @@ def generate(imFile, x_off_2, y_off_2)
 		if @genIm.rejectList.include?(label) then genChild = false end
 		
 		if @genIm.mapHash.key?(label)
-			label_conv = @genIm.mapHash[label]
+			label_converted = @genIm.mapHash[label]
 		else
-			#label_conv = convert_label(@label)
-			label_conv = label
+			#label_converted = convert_label(@label)
+			label_converted = label
 		end
+		label_conv = String.new(label_converted)
 		
 		tag_index = label_conv.index('#').nil? ? label_conv.length : label_conv.index('#')
 		#puts "tag_index = #{tag_index}"
-		label_conv = label_conv.insert(tag_index, @genIm.postfix)
-		label_conv = @genIm.prefix + label_conv
+		label_conv = @genIm.prefix + label_conv.insert(tag_index, @genIm.postfix)
 		
 		if genChild
 			#puts "rect #{x} #{y} #{x + w} #{y + h} [[#{label}]]"
