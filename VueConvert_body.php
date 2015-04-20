@@ -101,13 +101,15 @@ EOD;
 		}
 	}
 
-function displayintextarea($str,$out_name,$vuename){
+function displayintextarea($str,$out_name,$vuename,$imfilename){
 	/*
 	 * display information $str in text area
 	 * $out_name = name of output-file to be stored in hidden field.
 	 */
 
   $content=array();
+  //replace local filename for vue-filename
+  $str = str_replace($imfilename, pathinfo($vuename, PATHINFO_FILENAME), $str);
   $arr = explode("\n", $str);
 //TODO vertaal html-tags naar XML zoals hierboven aangegeven
   array_push($content,'<h1>'. wfMessage( 'result-conversion' )->text().' '.$vuename.'</h1>');
@@ -260,6 +262,7 @@ function changeparam($arr,$paramdesc,$paramvalue) {
     //define filenames to be used
     $ymlfilename = $wgTmpDirectory."/".$hash.".yml";
     $imfilename = $wgTmpDirectory."/".$hash.".im";
+    $imfilenamewoextension = $wgTmpDirectory."/".$hash;
     $vuefilename = $wgTmpDirectory."/".$hash;
     $rubyname=realpath(dirname(__FILE__)).'/genim.rb';
 
@@ -294,7 +297,7 @@ function changeparam($arr,$paramdesc,$paramvalue) {
     $rubycommand="ruby ".$rubyname." ".$ymlfilename;
     exec($rubycommand);
     //output results
-    $imagefiletext=$this->displayintextarea(file_get_contents($imfilename),$out_name,$vuename);
+    $imagefiletext=$this->displayintextarea(file_get_contents($imfilename),$out_name,$vuename,$imfilenamewoextension);
     foreach($imagefiletext as $line)
     {
 	$htmlstr .= $line;
