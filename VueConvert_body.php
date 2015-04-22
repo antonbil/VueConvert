@@ -16,6 +16,7 @@ class VueConvert extends SpecialPage
 function inbetween(s,total)
 //get text inbetween s and end of line inside string total
 {var n=total.search(s);
+  if (n<0) return "";
   var sub=total.substring(n+s.length);
   var n=sub.search("\n");
   return sub.substring(1,n).replace(/"+/g, "").trim();
