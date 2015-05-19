@@ -101,14 +101,21 @@ EOD;
 			$this->displayForm ();//first enter, so show first screen
 		}
 	}
+
+/*
+save result in template-file in wiki
+*/
 function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
-//api.php?action=edit&title=Talk:Main_Page&section=new&summary=Hello%20World&text=Hello%20everyone!&watch&basetimestamp=2008-03-20T17:26:39Z&token=cecded1f35005d22904a35cc7b736e18%2B%5C
+//remove extension from filename
   $path_parts = pathinfo($vuename);
 
   $filename = $path_parts['filename']; // Since PHP 5.2.0
+
+  //get token for storing file
   $user = $this->getUser(); // Or User::newFromName, etc.
   $token = $user->editToken();
 
+  //set parameters to save $str in template
   $templateTitle='Template:'.$prefix .' '.$filename .' '.$postfix;
   $params = new DerivativeRequest( 
 	  $this->getRequest(),
@@ -116,6 +123,7 @@ function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
 	    'action' => 'edit',
 	    'title' => $templateTitle,
 	    //'section' => 0,//Omit to act on the entire page
+            'basetimestamp' => wfTimestamp( TS_ISO_8601 ),
 	    'summary' => 'Image template '.$filename,
 	    'text' => $str,
 	    'token' => $token),
@@ -123,11 +131,15 @@ function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
   );
 
 
+  //save template in wiki
   $api = new ApiMain( $params ,true);//true = enable write: important!
   $api->execute();
+
+  //return template title to be used in calling function
   return $templateTitle;
 }
-
+/*remove all characters after trailing slash
+*/
 function removeAfterSlash($url){
   return substr($url, 0,strrpos($url, '/')+1);
 }
