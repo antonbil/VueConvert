@@ -101,8 +101,38 @@ EOD;
 			$this->displayForm ();//first enter, so show first screen
 		}
 	}
+function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
+//api.php?action=edit&title=Talk:Main_Page&section=new&summary=Hello%20World&text=Hello%20everyone!&watch&basetimestamp=2008-03-20T17:26:39Z&token=cecded1f35005d22904a35cc7b736e18%2B%5C
+  $path_parts = pathinfo($vuename);
 
-function displayintextarea($str,$out_name,$vuename,$imfilename){
+  $filename = $path_parts['filename']; // Since PHP 5.2.0
+  $user = $this->getUser(); // Or User::newFromName, etc.
+  $token = $user->editToken();
+
+  $templateTitle='Template:'.$prefix .' '.$filename .' '.$postfix;
+  $params = new DerivativeRequest( 
+	  $this->getRequest(),
+	  array(
+	    'action' => 'edit',
+	    'title' => $templateTitle,
+	    //'section' => 0,//Omit to act on the entire page
+	    'summary' => 'Image template '.$filename,
+	    'text' => $str,
+	    'token' => $token),
+	  true
+  );
+
+
+  $api = new ApiMain( $params ,true);//true = enable write: important!
+  $api->execute();
+  return $templateTitle;
+}
+
+function removeAfterSlash($url){
+  return substr($url, 0,strrpos($url, '/')+1);
+}
+
+function displayintextarea($str,$out_name,$vuename,$imfilename,$prefix,$postfix){
 	/*
 	 * display information $str in text area
 	 * $out_name = name of output-file to be stored in hidden field.
@@ -111,10 +141,13 @@ function displayintextarea($str,$out_name,$vuename,$imfilename){
   $content=array();
   //replace local filename for vue-filename
   $str = str_replace($imfilename, pathinfo($vuename, PATHINFO_FILENAME), $str);
+  //save result in wiki as template
+  $templateTitle=$this->saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix);
   $arr = explode("\n", $str);
 //TODO vertaal html-tags naar XML zoals hierboven aangegeven
   array_push($content,'<h1>'. wfMessage( 'result-conversion' )->text().' '.$vuename.'</h1>');
   array_push($content,'<h2>'. wfMessage( 'copy-paste' )->text().'</h2>');
+  array_push($content,'Template saved as <a href="'.$this->removeAfterSlash($_SERVER['REQUEST_URI']).$templateTitle.'">'.$templateTitle.'</a>\n');
   array_push($content,'<form action="#" method="post" id="download" enctype="multipart/form-data">');
   array_push($content,'<input type="hidden" name="displaymethod" value="download">');
   array_push($content,"<input type=\"hidden\" name=\"imfile\" value=\"".$out_name."\">");
@@ -298,7 +331,7 @@ function changeparam($arr,$paramdesc,$paramvalue) {
     $rubycommand="ruby ".$rubyname." ".$ymlfilename;
     exec($rubycommand);
     //output results
-    $imagefiletext=$this->displayintextarea(file_get_contents($imfilename),$out_name,$vuename,$imfilenamewoextension);
+    $imagefiletext=$this->displayintextarea(file_get_contents($imfilename),$out_name,$vuename,$imfilenamewoextension,$prefix,$postfix);
     foreach($imagefiletext as $line)
     {
 	$htmlstr .= $line;
