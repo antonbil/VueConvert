@@ -119,7 +119,7 @@ function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
   $token = $user->editToken();
 
   //set parameters to save $str in template
-  $templateTitle=''. self::TEMPLATE.':'.$prefix .' '.$filename .' '.$postfix;
+  $templateTitle=''. self::TEMPLATE.':IM '.$prefix .' '.$filename .' '.$postfix;
   $params = new DerivativeRequest( 
 	  $this->getRequest(),
 	  array(
