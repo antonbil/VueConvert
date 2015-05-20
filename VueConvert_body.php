@@ -60,7 +60,7 @@ map:
   "In de kracht zetten": "Zorgdenkwijze in de kracht zetten"
 EOD;
 
-var $TEMPLATE = 'Template';
+const TEMPLATE = 'Template';
 	function __construct() {
 		parent::__construct( "VueConvert","vueconvert" );
 	}
@@ -118,7 +118,7 @@ function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
   $token = $user->editToken();
 
   //set parameters to save $str in template
-  $templateTitle=''. $this->TEMPLATE.':'.$prefix .' '.$filename .' '.$postfix;
+  $templateTitle=''. self::TEMPLATE.':'.$prefix .' '.$filename .' '.$postfix;
   $params = new DerivativeRequest( 
 	  $this->getRequest(),
 	  array(
