@@ -61,6 +61,7 @@ map:
 EOD;
 
 const TEMPLATE = 'Template';
+
 	function __construct() {
 		parent::__construct( "VueConvert","vueconvert" );
 	}
@@ -108,7 +109,7 @@ const TEMPLATE = 'Template';
 save result in template-file in wiki
 */
 function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
-//remove extension from filename
+  //remove extension from filename
   $path_parts = pathinfo($vuename);
 
   $filename = $path_parts['filename']; // Since PHP 5.2.0
@@ -125,7 +126,7 @@ function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
 	    'action' => 'edit',
 	    'title' => $templateTitle,
 	    //'section' => 0,//Omit to act on the entire page
-            'basetimestamp' => wfTimestamp( TS_ISO_8601 ),
+            'basetimestamp' => wfTimestamp( TS_ISO_8601, wfTimestampNow() ),
 	    'summary' => 'Image template '.$filename,
 	    'text' => $str,
 	    'token' => $token),
@@ -140,18 +141,18 @@ function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
   //return template title to be used in calling function
   return $templateTitle;
 }
+
 /*remove all characters after trailing slash
 */
 function removeAfterSlash($url){
   return substr($url, 0,strrpos($url, '/')+1);
 }
 
-//NS_TEMPLATE
+/*
+  * display information $str in text area
+  * $out_name = name of output-file to be stored in hidden field.
+  */
 function displayintextarea($str,$out_name,$vuename,$imfilename,$prefix,$postfix){
-	/*
-	 * display information $str in text area
-	 * $out_name = name of output-file to be stored in hidden field.
-	 */
 
   $content=array();
   //replace local filename for vue-filename
