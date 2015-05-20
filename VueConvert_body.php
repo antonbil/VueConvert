@@ -59,6 +59,8 @@ map:
   "Er zijn": "Zorgdenkwijze er zijn"
   "In de kracht zetten": "Zorgdenkwijze in de kracht zetten"
 EOD;
+
+var $TEMPLATE = 'Template';
 	function __construct() {
 		parent::__construct( "VueConvert","vueconvert" );
 	}
@@ -116,7 +118,7 @@ function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
   $token = $user->editToken();
 
   //set parameters to save $str in template
-  $templateTitle='Template:'.$prefix .' '.$filename .' '.$postfix;
+  $templateTitle=''. $this->TEMPLATE.':'.$prefix .' '.$filename .' '.$postfix;
   $params = new DerivativeRequest( 
 	  $this->getRequest(),
 	  array(
@@ -144,6 +146,7 @@ function removeAfterSlash($url){
   return substr($url, 0,strrpos($url, '/')+1);
 }
 
+//NS_TEMPLATE
 function displayintextarea($str,$out_name,$vuename,$imfilename,$prefix,$postfix){
 	/*
 	 * display information $str in text area
@@ -159,7 +162,7 @@ function displayintextarea($str,$out_name,$vuename,$imfilename,$prefix,$postfix)
 //TODO vertaal html-tags naar XML zoals hierboven aangegeven
   array_push($content,'<h1>'. wfMessage( 'result-conversion' )->text().' '.$vuename.'</h1>');
   array_push($content,'<h2>'. wfMessage( 'copy-paste' )->text().'</h2>');
-  array_push($content,'Template saved as <a href="'.$this->removeAfterSlash($_SERVER['REQUEST_URI']).$templateTitle.'">'.$templateTitle.'</a>\n');
+  array_push($content,'<a href="'.$this->removeAfterSlash($_SERVER['REQUEST_URI']).$templateTitle.'">'.$templateTitle.'</a> '. wfMessage( 'created' )->text());
   array_push($content,'<form action="#" method="post" id="download" enctype="multipart/form-data">');
   array_push($content,'<input type="hidden" name="displaymethod" value="download">');
   array_push($content,"<input type=\"hidden\" name=\"imfile\" value=\"".$out_name."\">");
