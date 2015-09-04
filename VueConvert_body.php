@@ -8,6 +8,7 @@
  *   Last Update By: Anton Bil
 * prerequisites: ruby and ruby-xml-simple packages must be installed
  */
+//small change
 class VueConvert extends SpecialPage
 {
     const JAVASCRIPTTEXT=<<<'EOD'
