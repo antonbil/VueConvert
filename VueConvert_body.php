@@ -8,7 +8,6 @@
  *   Last Update By: Anton Bil
 * prerequisites: ruby and ruby-xml-simple packages must be installed
  */
- 
 class VueConvert extends SpecialPage
 {
     const JAVASCRIPTTEXT=<<<'EOD'
@@ -105,41 +104,13 @@ const TEMPLATE = 'Template';
 		}
 	}
 
-/*
-save result in template-file in wiki
-*/
-function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
-  //remove extension from filename
-  $path_parts = pathinfo($vuename);
-
-  $filename = $path_parts['filename']; // Since PHP 5.2.0
-
-  //get token for storing file
-  $user = $this->getUser(); // Or User::newFromName, etc.
-  $token = $user->editToken();
-
-  //set parameters to save $str in template
-  $templateTitle=''. self::TEMPLATE.':IM '.$prefix .' '.$filename .' '.$postfix;
-  $params = new DerivativeRequest( 
-	  $this->getRequest(),
-	  array(
-	    'action' => 'edit',
-	    'title' => $templateTitle,
-	    //'section' => 0,//Omit to act on the entire page
-            'basetimestamp' => wfTimestamp( TS_ISO_8601, wfTimestampNow() ),
-	    'summary' => 'Image template '.$filename,
-	    'text' => $str,
-	    'token' => $token),
-	  true
-  );
-
-
-  //save template in wiki
-  $api = new ApiMain( $params ,true);//true = enable write: important!
-  $api->execute();
-
-  //return template title to be used in calling function
-  return $templateTitle;
+function downloadtext($imfile,$imtext){
+	    $header='Content-Disposition: attachment; filename="'.$imfile.'";';
+	    header('Content-Type: application/txt');
+	    // tell the browser we want to save it instead of displaying it
+	    header($header);
+	    echo $imtext; // push it out
+	    exit();  
 }
 
 /*remove all characters after trailing slash
@@ -152,13 +123,9 @@ function removeAfterSlash($url){
   * display information $str in text area
   * $out_name = name of output-file to be stored in hidden field.
   */
-function displayintextarea($str,$out_name,$vuename,$imfilename,$prefix,$postfix){
+function displayintextarea($str,$out_name,$vuename,$imfilename,$prefix,$postfix,$templateTitle){
 
   $content=array();
-  //replace local filename for vue-filename
-  $str = str_replace($imfilename, pathinfo($vuename, PATHINFO_FILENAME), $str);
-  //save result in wiki as template
-  $templateTitle=$this->saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix);
   $arr = explode("\n", $str);
 //TODO vertaal html-tags naar XML zoals hierboven aangegeven
   array_push($content,'<h1>'. wfMessage( 'result-conversion' )->text().' '.$vuename.'</h1>');
@@ -245,6 +212,71 @@ function number($nr){
 
 
   }
+
+  function processForm($postfix,$prefix,$ymlcontent,$vuecontent,$vuename){
+    global $wgOut, $wgScript,$wgTmpDirectory;
+    $htmlstr = '';
+
+    $htmlstr .= XML::openElement('form',
+      array(
+        'method' => 'post',
+        'action' => '',//respond to same page
+       )
+      );
+    //this is second screen, but you can go back to first
+    $htmlstr .= '<input type="hidden" name="displaymethod" value="first">';
+    $htmlstr .= '<input type="submit" value="'. wfMessage( 'back' )->text().'" />';
+    $htmlstr .= XML::closeElement('form');
+
+    $out=$this->doConversion($postfix,$prefix,$ymlcontent,$vuecontent,$vuename);
+    //output results
+    $imagefiletext=$this->displayintextarea($out->str,$out->out_name,$vuename,$out->imfilenamewoextension,$prefix,$postfix,$out->templateTitle);
+    foreach($imagefiletext as $line)
+    {
+	$htmlstr .= $line;
+    }
+    $wgOut->addHTML($htmlstr);
+
+   }
+
+//logic
+/*
+save result in template-file in wiki
+*/
+function saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix){
+  //remove extension from filename
+  $path_parts = pathinfo($vuename);
+
+  $filename = $path_parts['filename']; // Since PHP 5.2.0
+
+  //get token for storing file
+  $user = $this->getUser(); // Or User::newFromName, etc.
+  $token = $user->editToken();
+
+  //set parameters to save $str in template
+  $templateTitle=''. self::TEMPLATE.':IM '.$prefix .' '.$filename .' '.$postfix;
+  $params = new DerivativeRequest( 
+	  $this->getRequest(),
+	  array(
+	    'action' => 'edit',
+	    'title' => $templateTitle,
+	    //'section' => 0,//Omit to act on the entire page
+            'basetimestamp' => wfTimestamp( TS_ISO_8601, wfTimestampNow() ),
+	    'summary' => 'Image template '.$filename,
+	    'text' => $str,
+	    'token' => $token),
+	  true
+  );
+
+
+  //save template in wiki
+  $api = new ApiMain( $params ,true);//true = enable write: important!
+  $api->execute();
+
+  //return template title to be used in calling function
+  return $templateTitle;
+}
+
 function getparam($arr,$paramdesc) {
 	/*
 	 * $arr = array to be checked
@@ -258,14 +290,6 @@ function getparam($arr,$paramdesc) {
     }
   }
   return $retvalue;
-}
-function downloadtext($imfile,$imtext){
-	    $header='Content-Disposition: attachment; filename="'.$imfile.'";';
-	    header('Content-Type: application/txt');
-	    // tell the browser we want to save it instead of displaying it
-	    header($header);
-	    echo $imtext; // push it out
-	    exit();  
 }
 function changeparam($arr,$paramdesc,$paramvalue) {
 	/*
@@ -291,22 +315,9 @@ function changeparam($arr,$paramdesc,$paramvalue) {
   return $newarr;
 }
 
-
-  function processForm($postfix,$prefix,$ymlcontent,$vuecontent,$vuename){
-    global $wgOut, $wgScript,$wgTmpDirectory;
-    $htmlstr = '';
-
-    $htmlstr .= XML::openElement('form',
-      array(
-        'method' => 'post',
-        'action' => '',//respond to same page
-       )
-      );
-    //this is second screen, but you can go back to first
-    $htmlstr .= '<input type="hidden" name="displaymethod" value="first">';
-    $htmlstr .= '<input type="submit" value="'. wfMessage( 'back' )->text().'" />';
-    $htmlstr .= XML::closeElement('form');
-
+    //input: $vuename, $prefix,$postfix,$ymlcontent,$vuecontent,$vuename
+    //output: $str, $templateTitle ,$out_name, $imfilenamewoextension
+  function doConversion($postfix,$prefix,$ymlcontent,$vuecontent,$vuename){
     //create hash for filename(s)
     $hash=hash('ripemd160', date("D M d, Y G:i").time().$vuecontent);
     //define filenames to be used
@@ -346,18 +357,22 @@ function changeparam($arr,$paramdesc,$paramvalue) {
     //now execute ruby-script 
     $rubycommand="ruby ".$rubyname." ".$ymlfilename;
     exec($rubycommand);
-    //output results
-    $imagefiletext=$this->displayintextarea(file_get_contents($imfilename),$out_name,$vuename,$imfilenamewoextension,$prefix,$postfix);
-    foreach($imagefiletext as $line)
-    {
-	$htmlstr .= $line;
-    }
-    $wgOut->addHTML($htmlstr);
-
+    $str=file_get_contents($imfilename);
+    //replace local filename for vue-filename
+    $str = str_replace($imfilename, pathinfo($vuename, PATHINFO_FILENAME), $str);
+    //save result in wiki as template
+    $templateTitle=$this->saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix);
+var_dump($str);
+    //four return parameters; add them together
+    $out->str=$str;$out->templateTitle=$templateTitle;$out->out_name=$out_name;$out->imfilenamewoextension=$imfilenamewoextension;
     //remove three temporary files
     unlink ($ymlfilename );
     unlink ($imfilename );
     unlink ($vuefilename );
-   }
+    return $out;
+  }
+
+//end logic
+
 
 }
