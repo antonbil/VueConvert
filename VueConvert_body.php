@@ -215,7 +215,7 @@ function number($nr){
   }
 
   function processForm($postfix,$prefix,$ymlcontent,$vuecontent,$vuename){
-    global $wgOut, $wgScript,$wgTmpDirectory;
+    global $wgOut, $wgScript;
     $htmlstr = '';
 
     $htmlstr .= XML::openElement('form',
@@ -319,6 +319,7 @@ function changeparam($arr,$paramdesc,$paramvalue) {
     //input: $vuename, $prefix,$postfix,$ymlcontent,$vuecontent,$vuename
     //output: $str, $templateTitle ,$out_name, $imfilenamewoextension
   function doConversion($postfix,$prefix,$ymlcontent,$vuecontent,$vuename){
+    global $wgTmpDirectory;
     //create hash for filename(s)
     $hash=hash('ripemd160', date("D M d, Y G:i").time().$vuecontent);
     //define filenames to be used
