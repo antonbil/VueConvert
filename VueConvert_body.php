@@ -9,7 +9,10 @@
 * prerequisites: ruby and ruby-xml-simple packages must be installed
  */
 //small change
-include "VueConvertLogic.php";
+if( class_exists('VueConvertLogic') != true )
+{
+   include "VueConvertLogic.php";
+}
 class VueConvert extends SpecialPage
 {
     const JAVASCRIPTTEXT=<<<'EOD'
@@ -37,6 +40,7 @@ function readYmlFile(evt) {
     r.readAsText(f);
   }
 }
+
 document.getElementById("ymlinput").addEventListener("change", readYmlFile, false);
 </script>
 EOD;
@@ -229,6 +233,7 @@ function number($nr){
     $htmlstr .= XML::closeElement('form');
 
     //$out=$this->doConversion($postfix,$prefix,$ymlcontent,$vuecontent,$vuename);
+
     $logic = new VueConvertLogic();
     $out=$logic->doConversion($postfix,$prefix,$ymlcontent,$vuecontent,$vuename);
     //output results
