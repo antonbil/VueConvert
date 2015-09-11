@@ -24,7 +24,7 @@ class VueConvertApi extends ApiBase {
 		$out=$logic->doConversion($postfix,$prefix,$ymlcontent,$vuecontent,$vuename);
 	        // return results
 		// Top level
-		$this->getResult()->addValue( null, $this->getModuleName(), array ( 'templatetext' => $out->str,
+		$this->getResult()->addValue( null, $this->getModuleName(), array ( 'templatetext' => $out->imcontents,
 		'templatetitle' =>$out->templateTitle,'outname' => $out->out_name,'imfilenamewoextension' => $out->imfilenamewoextension) );
 		return true;
 	}

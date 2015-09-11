@@ -232,12 +232,10 @@ function number($nr){
     $htmlstr .= '<input type="submit" value="'. wfMessage( 'back' )->text().'" />';
     $htmlstr .= XML::closeElement('form');
 
-    //$out=$this->doConversion($postfix,$prefix,$ymlcontent,$vuecontent,$vuename);
-
     $logic = new VueConvertLogic();
     $out=$logic->doConversion($postfix,$prefix,$ymlcontent,$vuecontent,$vuename);
     //output results
-    $imagefiletext=$this->displayintextarea($out->str,$out->out_name,$vuename,$out->imfilenamewoextension,$prefix,$postfix,$out->templateTitle);
+    $imagefiletext=$this->displayintextarea($out->imcontents,$out->out_name,$vuename,$out->imfilenamewoextension,$prefix,$postfix,$out->templateTitle);
     foreach($imagefiletext as $line)
     {
 	$htmlstr .= $line;

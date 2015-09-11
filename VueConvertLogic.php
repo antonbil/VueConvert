@@ -95,7 +95,7 @@ function changeparam($arr,$paramdesc,$paramvalue) {
 }
 
     //input: $vuename, $prefix,$postfix,$ymlcontent,$vuecontent,$vuename
-    //output: $str, $templateTitle ,$out_name, $imfilenamewoextension
+    //output: $imcontents, $templateTitle ,$out_name, $imfilenamewoextension
   public function doConversion($postfix,$prefix,$ymlcontent,$vuecontent,$vuename){
     global $wgTmpDirectory;
     //create hash for filename(s)
@@ -137,16 +137,15 @@ function changeparam($arr,$paramdesc,$paramvalue) {
     //now execute ruby-script 
     $rubycommand="ruby ".$rubyname." ".$ymlfilename;
     exec($rubycommand);
-    $str=file_get_contents($imfilename);
+    $imcontents=file_get_contents($imfilename);
     //replace local filename for vue-filename
     $path_parts = pathinfo($imfilename);
     $imfilenameWoExtension=$path_parts['dirname'].'/'.$path_parts['filename'];
-    $str = str_replace($imfilenameWoExtension, pathinfo($vuename, PATHINFO_FILENAME), $str);
-//var_dump($vuename);var_dump($path_parts['dirname'].'/'.$path_parts['filename']);die();
+    $imcontents = str_replace($imfilenameWoExtension, pathinfo($vuename, PATHINFO_FILENAME), $imcontents);
     //save result in wiki as template
-    $templateTitle=$this->saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix);
+    $templateTitle=$this->saveResultAsTemplate($imcontents,$out_name,$vuename,$prefix,$postfix);
     //four return parameters; add them together
-    $out->str=$str;$out->templateTitle=$templateTitle;$out->out_name=$out_name;$out->imfilenamewoextension=$imfilenamewoextension;
+    $out->imcontents=$imcontents;$out->templateTitle=$templateTitle;$out->out_name=$out_name;$out->imfilenamewoextension=$imfilenamewoextension;
     //remove three temporary files
     unlink ($ymlfilename );
     unlink ($imfilename );
