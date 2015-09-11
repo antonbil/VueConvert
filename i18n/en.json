@@ -1,9 +1,10 @@
 {
     "@metadata": {
-        "authors": []
+        "authors": ["Anton Bil"]
     },
-    "vueconvert-desc" : "Convert vue-file, written by Anton Bil",
-    "vueconvert" : "Convert vue-file",
+    "vueconvertspecialpage": "Convert vue-file",
+    "vueconvertspecialpage-desc": "{{desc}}",
+    "vueconvertspecialpage-summary": "Convert vue-file, written by Anton Bil",
     "example-desc": "This is an extension written by Anton Bil.",
     "choose-files":"Select two files: vue-file and yml-file",
     "convert":"Convert",

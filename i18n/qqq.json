@@ -2,7 +2,11 @@
     "@metadata": {
         "authors": []
     },
-    "example-desc": "{{desc}}",
+    "vueconvertspecialpage": "The name of the extension's entry in Special:SpecialPages",
+    "vueconvertspecialpage-desc": "{{desc}}",
+    "vueconvertspecialpage-summary": "Description appearing on top of [[Special:MyExtension]].",
+    "example-desc" : "{{desc}}",
+    "vueconvert-desc": "{{desc}}",
     "choose-files":"Kies twee bestanden: vue-file en yml-file",
     "example-welcome-title-user": "Title of the Welcome interface for logged-in users. $1 is the username.",
     "example-welcome-title-loggedout": "Title of the Welcome interface logged-out users.",

@@ -2,8 +2,9 @@
     "@metadata": {
         "authors": []
     },
-    "vueconvert-desc" : "Omzetten vue-file",
-    "vueconvert" : "Omzetten vue-file",
+    "vueconvertspecialpage": "Omzetten vue-file",
+    "vueconvertspecialpage-desc": "{{desc}}",
+    "vueconvertspecialpage-summary": "Omzetten vue-file, geschreven door Anton Bil",
     "example-desc": "Dit is een extensie geschreven door Anton Bil.",
     "choose-files":"Kies twee bestanden: yml-file en vue-file",
     "convert":"Omzetten",
