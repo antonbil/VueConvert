@@ -13,7 +13,7 @@ if( class_exists('VueConvertLogic') != true )
 {
    include "VueConvertLogic.php";
 }
-class VueConvert extends SpecialPage
+class VueConvertSpecialPage extends SpecialPage
 {
     const JAVASCRIPTTEXT=<<<'EOD'
 <script type="text/javascript">
@@ -66,7 +66,7 @@ map:
 EOD;
 
 	function __construct() {
-		parent::__construct( "VueConvert","vueconvert" );
+		parent::__construct( "VueConvertSpecialPage","vueconvert" );
 	}
 	function execute($par) {
 		//restrict acces to users wo have got here by typing the url

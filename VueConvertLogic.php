@@ -139,10 +139,12 @@ function changeparam($arr,$paramdesc,$paramvalue) {
     exec($rubycommand);
     $str=file_get_contents($imfilename);
     //replace local filename for vue-filename
-    $str = str_replace($imfilename, pathinfo($vuename, PATHINFO_FILENAME), $str);
+    $path_parts = pathinfo($imfilename);
+    $imfilenameWoExtension=$path_parts['dirname'].'/'.$path_parts['filename'];
+    $str = str_replace($imfilenameWoExtension, pathinfo($vuename, PATHINFO_FILENAME), $str);
+//var_dump($vuename);var_dump($path_parts['dirname'].'/'.$path_parts['filename']);die();
     //save result in wiki as template
     $templateTitle=$this->saveResultAsTemplate($str,$out_name,$vuename,$prefix,$postfix);
-//var_dump($str);
     //four return parameters; add them together
     $out->str=$str;$out->templateTitle=$templateTitle;$out->out_name=$out_name;$out->imfilenamewoextension=$imfilenamewoextension;
     //remove three temporary files
