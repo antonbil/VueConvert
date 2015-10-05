@@ -12,6 +12,7 @@ INSTALLATION:
    - VueConvert.i18n.php
    - VueConvertSpecialPage.php
    - VueConvertApi.php
+   - VueConvertApi_body.php
    - VueConvertLogic.php
    - VueConvertApi.i18n.php
    - VueConvert_body.php
