@@ -10,13 +10,16 @@ INSTALLATION:
  directory under the wiki install directory.
    - VueConvert.alias.php
    - VueConvert.i18n.php
-   - VueConvert.php
+   - VueConvertSpecialPage.php
+   - VueConvertApi.php
+   - VueConvertLogic.php
+   - VueConvertApi.i18n.php
    - VueConvert_body.php
    - genim.rb
 
  - The following line needs to be added to LocalSettings.php
 
- require_once("$IP/extensions/VueConvert/VueConvert.php");
+ require_once("$IP/extensions/VueConvert/VueConvertSpecialPage.php");
 $wgGroupPermissions['user']['vueconvert'] = true;
 $wgAvailableRights[] = 'vueconvert';
 require_once "$IP/extensions/VueConvert/VueConvertApi.php";
