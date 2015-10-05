@@ -105,7 +105,7 @@ def traverse
 	child.setOffset(0.0, 0.0)
 	x, y, w, h = child.boundingBox
 	
-	@imFile.write("<div id=\"page\">\n")
+	# @imFile.write("<div id=\"page\">\n")
 	@imFile.write("<imagemap>\n")
 	ext = File.extname(@vueFileName)
 	puts "extension = #{ext}"
@@ -114,7 +114,7 @@ def traverse
 	@imFile.write("File:#{name}.jpeg|center|1100px|#{name}\n")
 	child.generate(@imFile, @offset_x - x, @offset_y - y)
 	@imFile.write("</imagemap>\n")
-	@imFile.write("</div>\n")
+	# @imFile.write("</div>\n")
 end
 def traverseChild(element, parent)
 	type = element.attribute("xsi:type").to_s
