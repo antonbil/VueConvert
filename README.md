@@ -21,9 +21,6 @@ INSTALLATION:
  - The following line needs to be added to LocalSettings.php
 
  require_once("$IP/extensions/VueConvert/VueConvertSpecialPage.php");
-$wgGroupPermissions['user']['vueconvert'] = true;
-$wgAvailableRights[] = 'vueconvert';
-require_once "$IP/extensions/VueConvert/VueConvertApi.php";
 
 prerequisites: ruby and ruby-xml-simple packages must be installed
 
