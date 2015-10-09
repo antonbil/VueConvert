@@ -32,6 +32,8 @@ $wgExtensionCredits['specialpage'][] = array(
 	'url' => 'http://www.mediawiki.org/wiki/Extension:VueConvert',
 	'descriptionmsg' => 'vueconvertspecialpage-desc',
 );
+# Key name of the message containing the description.
+'descriptionmsg' => 'vueconvert-desc',
 
 $dir = dirname(__FILE__) . '/';
 $wgAutoloadClasses['VueConvertSpecialPage'] = $dir . 'VueConvert_body.php';
