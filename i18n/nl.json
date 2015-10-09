@@ -4,6 +4,7 @@
     },
     "vueconvertspecialpage": "Omzetten vue-file",
     "vueconvertspecialpage-desc": "{{desc}}",
+    "vueconvert-desc":"Omzetten vue-file",
     "vueconvertspecialpage-summary": "Omzetten vue-file, geschreven door Anton Bil",
     "example-desc": "Dit is een extensie geschreven door Anton Bil.",
     "choose-files":"Kies twee bestanden: yml-file en vue-file",

@@ -4,6 +4,7 @@
     },
     "vueconvertspecialpage": "Convert vue-file",
     "vueconvertspecialpage-desc": "{{desc}}",
+    "vueconvert-desc":"Convert vue-file",
     "vueconvertspecialpage-summary": "Convert vue-file, written by Anton Bil",
     "example-desc": "This is an extension written by Anton Bil.",
     "choose-files":"Select two files: vue-file and yml-file",
